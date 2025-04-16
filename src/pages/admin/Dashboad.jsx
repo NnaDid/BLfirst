@@ -1,431 +1,873 @@
-import React, { useState, useEffect } from "react";
-import { 
-  Box, 
-  Flex, 
-  Input, 
-  InputGroup, 
-  InputLeftElement, 
-  Button, 
-  Table, 
-  Thead, 
-  Tr, 
-  Th, 
-  Tbody, 
-  Td, 
-  Text, 
-  IconButton, 
-  TableContainer, 
-  useBreakpointValue, 
-  Stat, 
-  StatLabel, 
-  StatNumber, 
-  SimpleGrid, 
-  Skeleton, 
-  useToast, 
-  HStack, 
-  Badge, 
+import React, { useState } from 'react';
+import {
+  Box,
+  Flex,
+  Text,
+  IconButton,
+  useDisclosure,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  DrawerHeader,
+  DrawerBody,
+  Grid,
+  GridItem,
+  Stack,
   Avatar,
-  Menu, 
-  MenuButton, 
-  MenuList, 
-  MenuItem, 
-  Tooltip,
-  Tab,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Badge,
+  Divider,
+  HStack,
+  VStack,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
   Tabs,
   TabList,
+  Tab,
+  TabPanels,
   TabPanel,
-  TabPanels
-} from "@chakra-ui/react";
-import { 
-  AiOutlineSearch,  
-  AiOutlinePlus,
-  AiOutlineLeft  , 
-  AiOutlineRight
-} from "react-icons/ai";
-import { 
-  FiMoreVertical, 
-  FiUser, 
-  FiFilter, 
-  FiTrendingUp,
-  FiDollarSign,
-  FiGlobe,
-  FiMail,
-  FiServer,
-  FiShoppingBag,
-  FiPlusCircle,
-} from "react-icons/fi";
+  Select,
+  Button,
+  Icon,
+  useColorModeValue,
+  SimpleGrid,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Heading,
+  Stat,
+  StatLabel,
+  StatNumber,
+  StatHelpText,
+  StatArrow,
+  Progress,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  FormControl,
+  FormLabel,
+  Textarea,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+  Switch,
+  Tag,
+  TagLabel,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuDivider,
+  useToast
+} from '@chakra-ui/react';
 
-export default function Dashboard() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [domainData, setDomainData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState("");
+import {
+  FiMenu,
+  FiSearch,
+  FiBell,
+  FiSettings,
+  FiPieChart,
+  FiShoppingBag,
+  FiUsers,
+  FiDollarSign,
+  FiTruck,
+  FiTag,
+  FiGrid,
+  FiPlus,
+  FiEdit,
+  FiTrash2,
+  FiChevronDown,
+  FiChevronRight,
+  FiBarChart2,
+  FiTrendingUp,
+  FiTrendingDown,
+  FiAlertCircle,
+  FiCheckCircle,
+  FiX,
+  FiUpload
+} from 'react-icons/fi';
+
+// Sample data
+const recentOrders = [
+  {
+    id: '#ORD-001',
+    customer: 'Sarah Johnson',
+    date: '2023-05-15',
+    status: 'completed',
+    amount: 129.99
+  },
+  {
+    id: '#ORD-002',
+    customer: 'Michael Chen',
+    date: '2023-05-14',
+    status: 'processing',
+    amount: 89.50
+  },
+  {
+    id: '#ORD-003',
+    customer: 'Emma Williams',
+    date: '2023-05-14',
+    status: 'shipped',
+    amount: 45.00
+  },
+  {
+    id: '#ORD-004',
+    customer: 'David Kim',
+    date: '2023-05-13',
+    status: 'pending',
+    amount: 75.25
+  },
+  {
+    id: '#ORD-005',
+    customer: 'Lisa Rodriguez',
+    date: '2023-05-12',
+    status: 'completed',
+    amount: 210.00
+  }
+];
+
+const products = [
+  {
+    id: 101,
+    name: 'Hydrating Facial Serum',
+    stock: 42,
+    price: 39.99,
+    category: 'Skincare',
+    status: 'active'
+  },
+  {
+    id: 102,
+    name: 'Matte Foundation',
+    stock: 18,
+    price: 45.00,
+    category: 'Makeup',
+    status: 'active'
+  },
+  {
+    id: 103,
+    name: 'Repairing Hair Mask',
+    stock: 0,
+    price: 28.50,
+    category: 'Hair Care',
+    status: 'out of stock'
+  },
+  {
+    id: 104,
+    name: 'Exfoliating Body Scrub',
+    stock: 25,
+    price: 32.00,
+    category: 'Body Care',
+    status: 'active'
+  }
+];
+
+const customers = [
+  {
+    id: 1,
+    name: 'Sarah Johnson',
+    email: 'sarah@example.com',
+    orders: 5,
+    joined: '2022-03-15'
+  },
+  {
+    id: 2,
+    name: 'Michael Chen',
+    email: 'michael@example.com',
+    orders: 3,
+    joined: '2022-05-22'
+  },
+  {
+    id: 3,
+    name: 'Emma Williams',
+    email: 'emma@example.com',
+    orders: 7,
+    joined: '2022-01-10'
+  }
+];
+
+const AdminDashboard = () => {
+  const { isOpen: isSidebarOpen, onOpen: onSidebarOpen, onClose: onSidebarClose } = useDisclosure();
+  const { isOpen: isProductModalOpen, onOpen: onProductModalOpen, onClose: onProductModalClose } = useDisclosure();
+  const [activeTab, setActiveTab] = useState('dashboard');
   const toast = useToast();
-  
-  const isMobile = useBreakpointValue({ base: true, md: false });
-  
-  // Simulated data load
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDomainData([
-        { id: 1, name: "example.com", status: "Active", type: "Website", expiryDate: "2025-06-15" },
-        { id: 2, name: "mybusiness.org", status: "Active", type: "E-commerce", expiryDate: "2025-08-22" },
-        { id: 3, name: "digitalstore.net", status: "Pending", type: "Blog", expiryDate: "2025-05-30" },
-        { id: 4, name: "techblog.io", status: "Active", type: "Portfolio", expiryDate: "2026-01-10" },
-      ]);
-      setIsLoading(false);
-    }, 1500);
-    
-    return () => clearTimeout(timer);
-  }, []);
-  
-  const handleSearch = () => {
-    // Simulated search functionality
+
+  // Stats data
+  const stats = [
+    {
+      title: 'Total Revenue',
+      value: '$12,345',
+      change: 12.5,
+      icon: FiDollarSign,
+      color: 'green'
+    },
+    {
+      title: 'Total Orders',
+      value: '156',
+      change: 8.2,
+      icon: FiShoppingBag,
+      color: 'blue'
+    },
+    {
+      title: 'New Customers',
+      value: '24',
+      change: -3.1,
+      icon: FiUsers,
+      color: 'purple'
+    },
+    {
+      title: 'Products Sold',
+      value: '423',
+      change: 15.7,
+      icon: FiTag,
+      color: 'orange'
+    }
+  ];
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'completed':
+        return 'green';
+      case 'processing':
+        return 'blue';
+      case 'shipped':
+        return 'purple';
+      case 'pending':
+        return 'yellow';
+      case 'out of stock':
+        return 'red';
+      default:
+        return 'gray';
+    }
+  };
+
+  const handleSaveProduct = () => {
+    onProductModalClose();
     toast({
-      title: "Searching domains",
-      description: `Looking for: ${searchQuery}`,
-      status: "info",
-      duration: 2000,
+      title: 'Product saved',
+      description: 'The product has been successfully saved.',
+      status: 'success',
+      duration: 3000,
       isClosable: true,
     });
   };
-  
-  const handleAddFunds = () => {
-    toast({
-      title: "Redirecting to payment page",
-      status: "info",
-      duration: 2000,
-      isClosable: true,
-    });
-  };
-  
-  const handleCreateAccount = () => {
-    toast({
-      title: "Creating virtual account",
-      status: "loading",
-      duration: 2000,
-      isClosable: true,
-    });
-  };
-  
-  const filteredData = domainData.filter(domain => 
-    domain.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-  
+
   return (
-    <Box bg="gray.50" minH="100vh">
-      <Flex direction="column">
+    <Box minH="100vh" bg={useColorModeValue('gray.50', 'gray.900')}>
+      {/* Sidebar */} 
+    <Box
+      width={{ base: 0, md: 60 }}
+      position="fixed"
+      left={0}
+      top={0}
+      h="100vh"
+      bg={useColorModeValue('white', 'gray.800')}
+      borderRightWidth="1px"
+      borderColor={useColorModeValue('gray.100', 'gray.700')}
+      display={{ base: 'none', md: 'block' }}
+    >
+      <Box p={4} borderBottomWidth="1px" color="#6E741E">
+        <Heading size="md">Bright & Lustre Admin</Heading>
+      </Box>
+      <Box p={0} overflowY="auto">
+        <VStack align="stretch" spacing={0}>
+          <NavItem 
+            icon={FiPieChart} 
+            active={activeTab === 'dashboard'}
+            onClick={() => setActiveTab('dashboard')}
+          >
+            Dashboard
+          </NavItem>
+          <NavItem 
+            icon={FiShoppingBag} 
+            active={activeTab === 'products'}
+            onClick={() => setActiveTab('products')}
+          >
+            Products
+          </NavItem>
+          <NavItem 
+            icon={FiUsers} 
+            active={activeTab === 'customers'}
+            onClick={() => setActiveTab('customers')}
+          >
+            Customers
+          </NavItem>
+          <NavItem 
+            icon={FiDollarSign} 
+            active={activeTab === 'orders'}
+            onClick={() => setActiveTab('orders')}
+          >
+            Orders
+          </NavItem>
+          <NavItem 
+            icon={FiTruck} 
+            active={activeTab === 'shipping'}
+            onClick={() => setActiveTab('shipping')}
+          >
+            Shipping
+          </NavItem>
+          <NavItem 
+            icon={FiTag} 
+            active={activeTab === 'promotions'}
+            onClick={() => setActiveTab('promotions')}
+          >
+            Promotions
+          </NavItem>
+          <NavItem 
+            icon={FiGrid} 
+            active={activeTab === 'categories'}
+            onClick={() => setActiveTab('categories')}
+          >
+            Categories
+          </NavItem>
+          <NavItem 
+            icon={FiSettings} 
+            active={activeTab === 'settings'}
+            onClick={() => setActiveTab('settings')}
+          >
+            Settings
+          </NavItem>
+        </VStack>
+      </Box>
+    </Box>
+
+
+      <Drawer isOpen={isSidebarOpen} placement="left" onClose={onSidebarClose}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader borderBottomWidth="1px" color="#6E741E">
+            Bright & Lustre Admin
+          </DrawerHeader>
+          <DrawerBody p={0}>
+            <VStack align="stretch" spacing={0}>
+              <NavItem 
+                icon={FiPieChart} 
+                active={activeTab === 'dashboard'}
+                onClick={() => {
+                  setActiveTab('dashboard');
+                  onSidebarClose();
+                }}
+              >
+                Dashboard
+              </NavItem>
+              <NavItem 
+            icon={FiShoppingBag} 
+            active={activeTab === 'products'}
+            onClick={() => setActiveTab('products')}
+          >
+            Products
+          </NavItem>
+          <NavItem 
+            icon={FiUsers} 
+            active={activeTab === 'customers'}
+            onClick={() => setActiveTab('customers')}
+          >
+            Customers
+          </NavItem>
+          <NavItem 
+            icon={FiDollarSign} 
+            active={activeTab === 'orders'}
+            onClick={() => setActiveTab('orders')}
+          >
+            Orders
+          </NavItem>
+          <NavItem 
+            icon={FiTruck} 
+            active={activeTab === 'shipping'}
+            onClick={() => setActiveTab('shipping')}
+          >
+            Shipping
+          </NavItem>
+          <NavItem 
+            icon={FiTag} 
+            active={activeTab === 'promotions'}
+            onClick={() => setActiveTab('promotions')}
+          >
+            Promotions
+          </NavItem>
+          <NavItem 
+            icon={FiGrid} 
+            active={activeTab === 'categories'}
+            onClick={() => setActiveTab('categories')}
+          >
+            Categories
+          </NavItem>
+          <NavItem 
+            icon={FiSettings} 
+            active={activeTab === 'settings'}
+            onClick={() => setActiveTab('settings')}
+          >
+            Settings
+          </NavItem>
+            </VStack>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+
+
+
+      {/* Main Content */}
+      <Box ml={{ base: 0, md: 60 }} transition=".3s ease">
+
         {/* Header */}
         <Flex
           as="header"
           align="center"
           justify="space-between"
           w="full"
-          px={8}
-          py={4}
-          bg="white"
-          boxShadow="sm"
+          px="4"
+          bg={useColorModeValue('white', 'gray.800')}
+          borderBottomWidth="1px"
+          borderColor={useColorModeValue('gray.100', 'gray.700')}
+          h="14"
         >
-          <Flex align="center">
-            <Box mr={8} fontSize="2xl" fontWeight="bold" color="orange.500">
-              GO54
-            </Box>
-            <Text fontSize="lg" fontWeight="medium">Dashboard</Text>
-          </Flex>
+          <IconButton
+            aria-label="Menu"
+            display={{ base: 'inline-flex', md: 'none' }}
+            onClick={onSidebarOpen}
+            icon={<FiMenu />}
+            size="sm"
+          />
           
+          <InputGroup w="96" display={{ base: 'none', md: 'flex' }}>
+            <InputLeftElement pointerEvents="none">
+              <FiSearch color="gray.300" />
+            </InputLeftElement>
+            <Input type="text" placeholder="Search..." />
+          </InputGroup>
+
           <Flex align="center">
-            <Button size="sm" mr={4} leftIcon={<FiShoppingBag />} variant="ghost">
-              More Products
-            </Button>
+            <IconButton
+              aria-label="Notifications"
+              icon={<FiBell />}
+              variant="ghost"
+              mr="2"
+            />
             <Menu>
-              <MenuButton
-                as={Button}
-                size="sm"
-                variant="ghost"
-                rightIcon={<FiMoreVertical />}
-              >
-                <Flex align="center">
-                  <Avatar size="xs" mr={2} name="Nnaemeka Didigwu" />
-                  <Text>Nnaemeka</Text>
-                </Flex>
+              <MenuButton as={Button} rightIcon={<FiChevronDown />} variant="ghost">
+                <HStack spacing={2}>
+                  <Avatar size="sm" name="Admin User" />
+                  <Text fontSize="sm" display={{ base: 'none', md: 'flex' }}>Admin</Text>
+                </HStack>
               </MenuButton>
               <MenuList>
-                <MenuItem>My Profile</MenuItem>
-                <MenuItem>Account Settings</MenuItem>
-                <MenuItem>Billing</MenuItem>
-                <MenuItem>Sign Out</MenuItem>
+                <MenuItem>Profile</MenuItem>
+                <MenuItem>Settings</MenuItem>
+                <MenuDivider />
+                <MenuItem>Logout</MenuItem>
               </MenuList>
             </Menu>
           </Flex>
         </Flex>
-        
-        {/* Main Content */}
-        <Flex direction={{ base: "column", lg: "row" }} p={6} gap={6}>
-          <Box flex="3" order={{ base: 2, lg: 1 }}>
-            <Box mb={6}>
-              <Text fontSize="2xl" fontWeight="bold" mb={4}>Hello Nnaemeka 👋</Text>
-              
-              {/* Domain Search */}
-              <Box bg="white" p={6} borderRadius="md" boxShadow="sm" mb={6}>
-                <Text fontSize="lg" fontWeight="medium" mb={4}>Search up a domain</Text>
-                <Flex>
-                  <InputGroup size="md">
-                    <InputLeftElement pointerEvents="none">
-                      <AiOutlineSearch color="gray.300" />
-                    </InputLeftElement>
-                    <Input 
-                      placeholder="Find your perfect domain name" 
-                      borderRadius="md" 
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                  </InputGroup>
-                  <Button 
-                    colorScheme="orange" 
-                    ml={2}
-                    onClick={handleSearch}
-                  >
-                    Search
-                  </Button>
-                </Flex>
+              {/* Low Stock Alert */}
+              <Box p={4}>
+                <Alert status="warning" borderRadius="md" mb={6}>
+                  <AlertIcon />
+                  <Box>
+                    <AlertTitle>Low Stock Alert!</AlertTitle>
+                    <AlertDescription>
+                      3 products are running low on stock. <Button variant="link" colorScheme="yellow">View products</Button>
+                    </AlertDescription>
+                  </Box>
+                </Alert>
               </Box>
-              
-              {/* Tabs */}
-              <Box bg="white" borderRadius="md" boxShadow="sm">
-                <Tabs colorScheme="orange">
-                  <TabList px={4}>
-                    <Tab>Domains</Tab>
-                    <Tab>Hostings</Tab>
-                    <Tab>Emails</Tab>
-                    <Tab>Marketplace</Tab>
-                  </TabList>
-                  
-                  <TabPanels>
-                    <TabPanel p={0}>
-                      <TableContainer>
-                        <Table variant="simple" size="md">
-                          <Thead bg="gray.50">
-                            <Tr>
-                              <Th>Domain Name</Th>
-                              <Th>Status</Th>
-                              <Th display={{ base: "none", md: "table-cell" }}>Type</Th>
-                              <Th display={{ base: "none", md: "table-cell" }}>Expiry Date</Th>
-                              <Th width="50px"></Th>
-                            </Tr>
-                          </Thead>
-                          <Tbody>
-                            {isLoading ? (
-                              Array(4).fill(0).map((_, i) => (
-                                <Tr key={i}>
-                                  <Td><Skeleton height="20px" /></Td>
-                                  <Td><Skeleton height="20px" /></Td>
-                                  <Td display={{ base: "none", md: "table-cell" }}><Skeleton height="20px" /></Td>
-                                  <Td display={{ base: "none", md: "table-cell" }}><Skeleton height="20px" /></Td>
-                                  <Td><Skeleton height="20px" width="20px" /></Td>
-                                </Tr>
-                              ))
-                            ) : filteredData.length > 0 ? (
-                              filteredData.map((domain) => (
-                                <Tr key={domain.id}>
-                                  <Td fontWeight="medium">{domain.name}</Td>
-                                  <Td>
-                                    <Badge 
-                                      colorScheme={domain.status === "Active" ? "green" : "yellow"}
-                                      borderRadius="full"
-                                      px={2}
-                                    >
-                                      {domain.status}
-                                    </Badge>
-                                  </Td>
-                                  <Td display={{ base: "none", md: "table-cell" }}>{domain.type}</Td>
-                                  <Td display={{ base: "none", md: "table-cell" }}>{domain.expiryDate}</Td>
-                                  <Td>
-                                    <Menu>
-                                      <MenuButton
-                                        as={IconButton}
-                                        aria-label="Options"
-                                        icon={<FiMoreVertical />}
-                                        variant="ghost"
-                                        size="sm"
-                                      />
-                                      <MenuList>
-                                        <MenuItem>Manage Domain</MenuItem>
-                                        <MenuItem>Renew Domain</MenuItem>
-                                        <MenuItem>Transfer Domain</MenuItem>
-                                      </MenuList>
-                                    </Menu>
-                                  </Td>
-                                </Tr>
-                              ))
-                            ) : (
-                              <Tr>
-                                <Td colSpan={5} textAlign="center" py={4}>
-                                  No domains found. Try a different search.
-                                </Td>
-                              </Tr>
-                            )}
-                          </Tbody>
-                        </Table>
-                      </TableContainer>
-                      
-                      {/* Pagination */}
-                      {!isLoading && filteredData.length > 0 && (
-                        <Flex justify="space-between" align="center" p={4}>
-                          <Text color="gray.600">
-                            Showing {filteredData.length} of {domainData.length} domains
-                          </Text>
-                          <HStack>
-                            <IconButton
-                              icon={<ChevronLeftIcon />}
-                              aria-label="Previous page"
-                              size="sm"
-                              isDisabled={currentPage === 1}
-                              onClick={() => setCurrentPage(currentPage - 1)}
-                            />
-                            <Text>{currentPage}</Text>
-                            <IconButton
-                              icon={<AiOutlineRight/>}
-                              aria-label="Next page"
-                              size="sm"
-                              isDisabled={true}
-                              onClick={() => setCurrentPage(currentPage + 1)}
-                            />
-                          </HStack>
-                        </Flex>
-                      )}
-                    </TabPanel>
-                    
-                    <TabPanel>
-                      <Box p={4} textAlign="center">
-                        <Text color="gray.500">No hosting plans found</Text>
-                        <Button leftIcon={<AiOutlinePlus />} colorScheme="orange" mt={4} size="sm">
-                          Add Hosting Plan
+        {/* Dashboard Content */}
+        <Box p={4}>
+          {activeTab === 'dashboard' && (
+            <>
+              <Flex justify="space-between" mb={6}>
+                <Heading size="lg" color="#6E741E">Dashboard Overview</Heading>
+                <Select placeholder="Last 30 days" width="200px">
+                  <option>Last 7 days</option>
+                  <option>Last 30 days</option>
+                  <option>Last 90 days</option>
+                  <option>This year</option>
+                </Select>
+              </Flex>
+
+              {/* Stats Cards */}
+              <SimpleGrid columns={{ base: 1, sm: 2, lg: 4 }} spacing={6} mb={6}>
+                {stats.map((stat, index) => (
+                  <StatCard 
+                    key={index}
+                    title={stat.title}
+                    value={stat.value}
+                    change={stat.change}
+                    icon={stat.icon}
+                    color={stat.color}
+                  />
+                ))}
+              </SimpleGrid>
+
+              {/* Charts and Recent Orders */}
+              <Grid templateColumns={{ base: '1fr', lg: '2fr 1fr' }} gap={6} mb={6}>
+                <GridItem>
+                  <Card>
+                    <CardHeader>
+                      <Heading size="md">Sales Overview</Heading>
+                    </CardHeader>
+                    <CardBody>
+                      <Box h="300px" bg="gray.100" borderRadius="md" p={4}>
+                        {/* Chart would go here */}
+                        <Center h="full">
+                          <Text color="gray.500">Sales chart visualization</Text>
+                        </Center>
+                      </Box>
+                    </CardBody>
+                  </Card>
+                </GridItem>
+                <GridItem>
+                  <Card>
+                    <CardHeader>
+                      <Heading size="md">Recent Orders</Heading>
+                    </CardHeader>
+                    <CardBody>
+                      <VStack spacing={4} align="stretch">
+                        {recentOrders.slice(0, 4).map((order) => (
+                          <Flex key={order.id} justify="space-between" align="center">
+                            <Box>
+                              <Text fontWeight="medium">{order.id}</Text>
+                              <Text fontSize="sm" color="gray.500">{order.customer}</Text>
+                            </Box>
+                            <Badge colorScheme={getStatusColor(order.status)}>{order.status}</Badge>
+                            <Text fontWeight="bold">${order.amount.toFixed(2)}</Text>
+                          </Flex>
+                        ))}
+                        <Button 
+                          rightIcon={<FiChevronRight />} 
+                          variant="ghost" 
+                          size="sm" 
+                          color="#6E741E"
+                        >
+                          View all orders
                         </Button>
-                      </Box>
-                    </TabPanel>
-                    
-                    <TabPanel>
-                      <Box p={4} textAlign="center">
-                        <Text color="gray.500">No email accounts found</Text>
-                        <Button leftIcon={<AiOutlinePlus />} colorScheme="orange" mt={4} size="sm">
-                          Create Email Account
-                        </Button>
-                      </Box>
-                    </TabPanel>
-                    
-                    <TabPanel>
-                      <Box p={4} textAlign="center">
-                        <Text color="gray.500">Marketplace coming soon</Text>
-                      </Box>
-                    </TabPanel>
-                  </TabPanels>
-                </Tabs>
-              </Box>
-              
-              {/* Quick Actions */}
-              <Box mt={6}>
-                <Text fontSize="lg" fontWeight="medium" mb={4}>Quick Actions</Text>
-                <SimpleGrid columns={{ base: 2, md: 4 }} spacing={4}>
-                  <Button leftIcon={<FiGlobe />} variant="outline" size="md" justifyContent="flex-start">
-                    Register Domain
-                  </Button>
-                  <Button leftIcon={<FiServer />} variant="outline" size="md" justifyContent="flex-start">
-                    Order Hosting
-                  </Button>
-                  <Button leftIcon={<FiMail />} variant="outline" size="md" justifyContent="flex-start">
-                    Setup Email
-                  </Button>
-                  <Button leftIcon={<FiTrendingUp />} variant="outline" size="md" justifyContent="flex-start">
-                    View Analytics
-                  </Button>
-                </SimpleGrid>
-              </Box>
-            </Box>
-          </Box>
-          
-          {/* Sidebar */}
-          <Flex 
-            direction="column" 
-            flex="1" 
-            order={{ base: 1, lg: 2 }}
-            spacing={4}
-          >
-            {/* Wallet */}
-            <Box bg="white" p={6} borderRadius="md" boxShadow="sm" mb={6}>
-              <Text fontSize="lg" fontWeight="medium" mb={4}>Wallet</Text>
-              <Stat mb={6}>
-                <StatLabel color="gray.600">Available Balance</StatLabel>
-                <StatNumber>₦0.00</StatNumber>
-              </Stat>
-              <Button 
-                colorScheme="orange" 
-                width="full" 
-                onClick={handleAddFunds}
-              >
-                Top Up Balance
-              </Button>
-            </Box>
-            
-            {/* Virtual Account Details */}
-            <Box bg="white" p={6} borderRadius="md" boxShadow="sm" mb={6}>
-              <Text fontSize="lg" fontWeight="medium" mb={4}>Virtual Account Details</Text>
-              <Button 
-                colorScheme="orange" 
-                variant="outline" 
-                width="full" 
-                mb={4}
-                onClick={handleCreateAccount}
-              >
-                Create Virtual Account
-              </Button>
-              <Button 
-                variant="link" 
-                colorScheme="orange" 
-                size="sm"
-                leftIcon={<FiPlusCircle />}
-              >
-                Add your BVN
-              </Button>
-            </Box>
-            
-            {/* Promo Banner */}
-            <Box 
-              bg="orange.500" 
-              p={6} 
-              borderRadius="md" 
-              boxShadow="sm" 
-              color="white"
-              position="relative"
-              overflow="hidden"
-            >
-              <Box mb={4}>
-                <Text fontSize="xl" fontWeight="bold">Zoho Business Suite</Text>
-                <Text fontSize="sm">Stay professional with the tool built for modern teams.</Text>
-              </Box>
-              
-              <Box position="absolute" bottom={-10} right={-10}>
-                <Box 
-                  width="120px" 
-                  height="120px" 
-                  borderRadius="full" 
-                  bg="orange.400" 
-                  opacity={0.6} 
-                />
-              </Box>
-              
-              <Box position="absolute" top={-5} right={-5}>
-                <Box 
-                  width="80px" 
-                  height="80px" 
-                  borderRadius="full" 
-                  bg="orange.400" 
-                  opacity={0.4} 
-                />
-              </Box>
-            </Box>
-          </Flex>
-        </Flex>
-      </Flex>
+                      </VStack>
+                    </CardBody>
+                  </Card>
+                </GridItem>
+              </Grid>
+
+
+              {/* Recent Customers */}
+              <Card mb={6}>
+                <CardHeader>
+                  <Heading size="md">Recent Customers</Heading>
+                </CardHeader>
+                <CardBody>
+                  <Table variant="simple">
+                    <Thead>
+                      <Tr>
+                        <Th>Customer</Th>
+                        <Th>Email</Th>
+                        <Th>Orders</Th>
+                        <Th>Joined</Th>
+                        <Th>Action</Th>
+                      </Tr>
+                    </Thead>
+                    <Tbody>
+                      {customers.map((customer) => (
+                        <Tr key={customer.id}>
+                          <Td>{customer.name}</Td>
+                          <Td>{customer.email}</Td>
+                          <Td>{customer.orders}</Td>
+                          <Td>{customer.joined}</Td>
+                          <Td>
+                            <Button size="sm" variant="ghost" colorScheme="blue">
+                              View
+                            </Button>
+                          </Td>
+                        </Tr>
+                      ))}
+                    </Tbody>
+                  </Table>
+                </CardBody>
+              </Card>
+            </>
+          )}
+
+          {activeTab === 'products' && (
+            <>
+              <Flex justify="space-between" mb={6}>
+                <Heading size="lg" color="#6E741E">Product Management</Heading>
+                <Button 
+                  leftIcon={<FiPlus />} 
+                  colorScheme="green"
+                  onClick={onProductModalOpen}
+                >
+                  Add Product
+                </Button>
+              </Flex>
+
+              <Card>
+                <CardHeader>
+                  <Flex justify="space-between" align="center">
+                    <Heading size="md">All Products</Heading>
+                    <InputGroup width="300px">
+                      <InputLeftElement pointerEvents="none">
+                        <FiSearch color="gray.300" />
+                      </InputLeftElement>
+                      <Input type="text" placeholder="Search products..." />
+                    </InputGroup>
+                  </Flex>
+                </CardHeader>
+                <CardBody>
+                  <Table variant="simple">
+                    <Thead>
+                      <Tr>
+                        <Th>Product</Th>
+                        <Th>Category</Th>
+                        <Th>Stock</Th>
+                        <Th>Price</Th>
+                        <Th>Status</Th>
+                        <Th>Actions</Th>
+                      </Tr>
+                    </Thead>
+                    <Tbody>
+                      {products.map((product) => (
+                        <Tr key={product.id}>
+                          <Td fontWeight="medium">{product.name}</Td>
+                          <Td>{product.category}</Td>
+                          <Td>
+                            <Progress 
+                              value={(product.stock / 50) * 100} 
+                              size="sm" 
+                              colorScheme={product.stock < 10 ? 'red' : 'green'}
+                            />
+                            <Text fontSize="sm">{product.stock} in stock</Text>
+                          </Td>
+                          <Td>${product.price.toFixed(2)}</Td>
+                          <Td>
+                            <Badge colorScheme={getStatusColor(product.status)}>
+                              {product.status}
+                            </Badge>
+                          </Td>
+                          <Td>
+                            <HStack spacing={2}>
+                              <IconButton
+                                aria-label="Edit product"
+                                icon={<FiEdit />}
+                                size="sm"
+                                variant="ghost"
+                                colorScheme="blue"
+                              />
+                              <IconButton
+                                aria-label="Delete product"
+                                icon={<FiTrash2 />}
+                                size="sm"
+                                variant="ghost"
+                                colorScheme="red"
+                              />
+                            </HStack>
+                          </Td>
+                        </Tr>
+                      ))}
+                    </Tbody>
+                  </Table>
+                </CardBody>
+                <CardFooter>
+                  <Flex justify="space-between" width="full">
+                    <Text color="gray.500">Showing 1 to 4 of 24 products</Text>
+                    <HStack spacing={2}>
+                      <Button size="sm" variant="outline">
+                        Previous
+                      </Button>
+                      <Button size="sm" variant="solid" colorScheme="green">
+                        1
+                      </Button>
+                      <Button size="sm" variant="outline">
+                        2
+                      </Button>
+                      <Button size="sm" variant="outline">
+                        Next
+                      </Button>
+                    </HStack>
+                  </Flex>
+                </CardFooter>
+              </Card>
+            </>
+          )}
+
+          {/* Other tabs would be implemented similarly */}
+          {activeTab !== 'dashboard' && activeTab !== 'products' && (
+            <Center h="200px">
+              <Text fontSize="xl">{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} section coming soon</Text>
+            </Center>
+          )}
+        </Box>
+      </Box>
+
+      {/* Add Product Modal */}
+      <Modal isOpen={isProductModalOpen} onClose={onProductModalClose} size="xl">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Add New Product</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Stack spacing={4}>
+              <FormControl isRequired>
+                <FormLabel>Product Name</FormLabel>
+                <Input placeholder="Enter product name" />
+              </FormControl>
+
+              <FormControl isRequired>
+                <FormLabel>Description</FormLabel>
+                <Textarea placeholder="Enter product description" rows={4} />
+              </FormControl>
+
+              <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+                <FormControl isRequired>
+                  <FormLabel>Price</FormLabel>
+                  <NumberInput precision={2} min={0}>
+                    <NumberInputField placeholder="0.00" />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                </FormControl>
+
+                <FormControl>
+                  <FormLabel>Discount Price</FormLabel>
+                  <NumberInput precision={2} min={0}>
+                    <NumberInputField placeholder="Optional" />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                </FormControl>
+
+                <FormControl isRequired>
+                  <FormLabel>Stock Quantity</FormLabel>
+                  <NumberInput min={0}>
+                    <NumberInputField placeholder="0" />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                </FormControl>
+
+                <FormControl isRequired>
+                  <FormLabel>Category</FormLabel>
+                  <Select placeholder="Select category">
+                    <option>Skincare</option>
+                    <option>Makeup</option>
+                    <option>Hair Care</option>
+                    <option>Body Care</option>
+                    <option>Fragrances</option>
+                    <option>Tools & Accessories</option>
+                  </Select>
+                </FormControl>
+              </Grid>
+
+              <FormControl>
+                <FormLabel>Product Images</FormLabel>
+                <Box borderWidth="1px" borderRadius="md" p={4} borderStyle="dashed">
+                  <VStack spacing={2}>
+                    <Icon as={FiUpload} boxSize={8} color="gray.400" />
+                    <Text fontSize="sm">Drag and drop images here, or click to browse</Text>
+                    <Button size="sm" variant="outline">
+                      Select Files
+                    </Button>
+                  </VStack>
+                </Box>
+              </FormControl>
+
+              <FormControl display="flex" alignItems="center">
+                <FormLabel mb="0">Active Product?</FormLabel>
+                <Switch colorScheme="green" defaultChecked />
+              </FormControl>
+            </Stack>
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="outline" mr={3} onClick={onProductModalClose}>
+              Cancel
+            </Button>
+            <Button colorScheme="green" onClick={handleSaveProduct}>
+              Save Product
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
-}
+};
+
+// Reusable components
+const NavItem = ({ icon, children, active, onClick }) => {
+  return (
+    <Box
+      as="button"
+      w="full"
+      px={4}
+      py={3}
+      textAlign="left"
+      bg={active ? useColorModeValue('gray.100', 'gray.700') : 'transparent'}
+      color={active ? '#6E741E' : useColorModeValue('gray.600', 'gray.400')}
+      _hover={{
+        bg: useColorModeValue('gray.100', 'gray.700'),
+        color: '#6E741E'
+      }}
+      onClick={onClick}
+    >
+      <HStack>
+      <Icon as={icon} />
+        <Text>{children}</Text>
+      </HStack>
+    </Box>
+  );
+};
+
+const StatCard = ({ title, value, change, icon, color }) => {
+  const isPositive = change >= 0;
+  
+  return (
+    <Card>
+      <CardBody>
+        <Stack spacing={3}>
+          <Flex justify="space-between" align="center">
+            <Text fontSize="sm" color="gray.500">{title}</Text>
+            <Icon as={icon} color={`${color}.400`} />
+          </Flex>
+          <Stat>
+            <StatNumber>{value}</StatNumber>
+            <StatHelpText>
+              <StatArrow type={isPositive ? 'increase' : 'decrease'} />
+              {Math.abs(change)}%
+              <Text as="span" color="gray.500" ml={1}>
+                {isPositive ? 'up' : 'down'} from last month
+              </Text>
+            </StatHelpText>
+          </Stat>
+        </Stack>
+      </CardBody>
+    </Card>
+  );
+};
+
+const Center = ({ children, ...props }) => (
+  <Flex align="center" justify="center" {...props}>
+    {children}
+  </Flex>
+);
+
+export default AdminDashboard;

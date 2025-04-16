@@ -12,6 +12,7 @@ import Products from './pages/admin/Products';
 import Orders from './pages/admin/Orders';
 import Users from './pages/admin/Users';
 import Admins from './pages/admin/Admins';
+import ForgotPassword from './pages/user/ForgotPassword';
 
 const App = () => {
   return (
@@ -22,10 +23,12 @@ const App = () => {
 
               <Route path="/login"    element={<Login/>}  />
               <Route path="/register"  element={<Register />}  /> 
+              <Route path="/forgot-password"  element={<ForgotPassword />}  /> 
 
               {/* Admin */}
+              {/* <Route path="/blx-admin" element={<LoginPage />} >  */}
               <Route path="/blx-admin" element={<LoginPage />} > 
-                   <Route index element={<Dashboard />} /> 
+                   <Route index element={<LoginPage />} />   
                    <Route path="Dashboard" element={<Dashboard />} />  
                    <Route path="Products" element={<Products />} /> 
                    <Route path="Orders" element={<Orders />} /> 

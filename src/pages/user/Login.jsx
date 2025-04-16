@@ -168,7 +168,7 @@ const Login = () => {
                     >
                       <Text fontSize="sm">Remember me</Text>
                     </Checkbox>
-                    <Link fontSize="sm" color="gray.600" href="#">
+                    <Link fontSize="sm" color="gray.600" href="/forgot-password">
                       Forgot Password?
                     </Link>
                   </Flex>

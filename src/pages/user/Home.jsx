@@ -35,7 +35,6 @@ import {
   useToast
 } from "@chakra-ui/react";
 
-
 import {
   FiShoppingCart,
   FiHeart,
@@ -48,44 +47,46 @@ import {
   FiTrash2,
   FiMinus,
   FiMenu,
+  FiChevronLeft,
+  FiChevronDown
 } from "react-icons/fi";
 
-// Sample product data 
+// Sample product data with real image URLs
 const productCategories = [
   {
     id: 1,
     name: "Skincare",
-    image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=320&q=80",
+    image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=400&q=80",
     featured: true
   },
   {
     id: 2,
     name: "Makeup",
-    image: "https://images.unsplash.com/photo-1522338242992-e1a54906a8da?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=320&q=80",
+    image: "https://images.unsplash.com/photo-1526758097130-bab247274f58?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=400&q=80",
     featured: true
   },
   {
     id: 3,
     name: "Hair Care",
-    image: "https://images.unsplash.com/photo-1526947425960-945c6e72858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=320&q=80",
+    image: "https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=400&q=80",
     featured: false
   },
   {
     id: 4,
     name: "Body Care",
-    image: "https://images.unsplash.com/photo-1570194065650-821cfb9b44a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=320&q=80",
+    image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=400&q=80",
     featured: true
   },
   {
     id: 5,
     name: "Fragrances",
-    image: "https://images.unsplash.com/photo-1617897903246-719242758050?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=320&q=80",
+    image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=400&q=80",
     featured: false
   },
   {
     id: 6,
     name: "Tools & Accessories",
-    image: "https://images.unsplash.com/photo-1627384113743-6bd5a479fffd?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=320&q=80",
+    image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=400&q=80",
     featured: false
   }
 ];
@@ -98,7 +99,7 @@ const products = [
     discountPrice: 29.99,
     rating: 4.8,
     reviewCount: 124,
-    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=320&q=80",
+    image: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=400&q=80",
     categoryId: 1,
     isNew: true,
     isBestseller: true,
@@ -112,7 +113,7 @@ const products = [
     discountPrice: null,
     rating: 4.6,
     reviewCount: 98,
-    image: "https://images.unsplash.com/photo-1599733589046-833caccee609?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=320&q=80",
+    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=400&q=80",
     categoryId: 2,
     isNew: false,
     isBestseller: true,
@@ -126,7 +127,7 @@ const products = [
     discountPrice: 22.99,
     rating: 4.7,
     reviewCount: 85,
-    image: "https://images.unsplash.com/photo-1615396900237-b94b657a17e3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=320&q=80",
+    image: "https://images.unsplash.com/photo-1608248543803-ba9f8a322e3f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=400&q=80",
     categoryId: 3,
     isNew: false,
     isBestseller: false,
@@ -140,7 +141,7 @@ const products = [
     discountPrice: null,
     rating: 4.5,
     reviewCount: 67,
-    image: "https://images.unsplash.com/photo-1611073561609-cdc5a2391185?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=320&q=80",
+    image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=400&q=80",
     categoryId: 4,
     isNew: true,
     isBestseller: false,
@@ -154,7 +155,7 @@ const products = [
     discountPrice: 59.99,
     rating: 4.9,
     reviewCount: 153,
-    image: "https://images.unsplash.com/photo-1594035905464-f9526e202b8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=320&q=80",
+    image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=400&q=80",
     categoryId: 5,
     isNew: false,
     isBestseller: true,
@@ -168,7 +169,7 @@ const products = [
     discountPrice: null,
     rating: 4.7,
     reviewCount: 112,
-    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=320&q=80",
+    image: "https://images.unsplash.com/photo-1610998342124-c4fcba4cf4bf?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=400&q=80",
     categoryId: 6,
     isNew: false,
     isBestseller: false,
@@ -182,7 +183,7 @@ const products = [
     discountPrice: 49.99,
     rating: 4.8,
     reviewCount: 89,
-    image: "https://images.unsplash.com/photo-1608248597279-f99d160beba3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=320&q=80",
+    image: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=400&q=80",
     categoryId: 1,
     isNew: true,
     isBestseller: false,
@@ -196,7 +197,7 @@ const products = [
     discountPrice: null,
     rating: 4.5,
     reviewCount: 76,
-    image: "https://images.unsplash.com/photo-1631214540553-ff044a3ff1d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=320&q=80",
+    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=400&q=80",
     categoryId: 2,
     isNew: false,
     isBestseller: true,
@@ -204,15 +205,55 @@ const products = [
     tags: ["Volumizing", "Waterproof"]
   }
 ];
+
+// Hero slider images with real URLs
+const heroImages = [
+  {
+    src: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&h=400&q=80",
+    alt: "Natural Beauty Products",
+    heading: "Discover Your Natural Beauty",
+    subtext: "Premium skincare and beauty products crafted with natural ingredients for a radiant you."
+  },
+  {
+    src: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&h=400&q=80",
+    alt: "Organic Skincare Collection",
+    heading: "Pure & Organic Skincare",
+    subtext: "Experience the power of nature with our organic skincare collection."
+  },
+  {
+    src: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&h=400&q=80",
+    alt: "Seasonal Beauty Essentials",
+    heading: "Spring Beauty Essentials",
+    subtext: "Revitalize your routine with our new season collection of essential beauty products."
+  }
+];
+
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentHeroSlide, setCurrentHeroSlide] = useState(0);
   const { isOpen: isCartOpen, onOpen: onCartOpen, onClose: onCartClose } = useDisclosure();
   const { isOpen: isWishlistOpen, onOpen: onWishlistOpen, onClose: onWishlistClose } = useDisclosure();
   const { isOpen: isMobileMenuOpen, onOpen: onMobileMenuOpen, onClose: onMobileMenuClose } = useDisclosure();
   const toast = useToast();
+
+  // Hero slider auto-rotation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentHeroSlide((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const nextSlide = () => {
+    setCurrentHeroSlide((prev) => (prev + 1) % heroImages.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentHeroSlide((prev) => (prev - 1 + heroImages.length) % heroImages.length);
+  };
 
   const filteredProducts = selectedCategory === "all"
     ? products
@@ -337,8 +378,8 @@ export default function Home() {
                 aria-label="Open menu"
                 mr={2}
               />
-              <Heading size="lg" color="pink.500" letterSpacing="tight">
-                GlowEssence
+              <Heading size="lg" color="#6E741E" letterSpacing="tight">
+                Bright & Lustre
               </Heading>
             </Flex>
 
@@ -348,9 +389,11 @@ export default function Home() {
                 borderRadius="full"
                 value={searchQuery}
                 onChange={handleSearch}
+                borderColor="#6E741E"
+                _focus={{ borderColor: "#6E741E", boxShadow: "0 0 0 1px #6E741E" }}
               />
               <InputRightElement>
-                <FiChevronRight color="gray.400" />
+                <FiChevronRight color="#6E741E" />
               </InputRightElement>
             </InputGroup>
 
@@ -360,6 +403,7 @@ export default function Home() {
                 icon={<FiChevronRight />}
                 variant="ghost"
                 display={{ base: "flex", md: "none" }}
+                color="#6E741E"
               />
               <Box position="relative" display={{ base: "none", sm: "block" }}>
                 <IconButton
@@ -367,6 +411,7 @@ export default function Home() {
                   icon={<FiHeart />}
                   variant="ghost"
                   onClick={onWishlistOpen}
+                  color="#6E741E"
                 />
                 {wishlistItems.length > 0 && (
                   <Badge
@@ -374,7 +419,7 @@ export default function Home() {
                     top="-6px"
                     right="-6px"
                     borderRadius="full"
-                    bg="pink.400"
+                    bg="#6E741E"
                     color="white"
                     fontSize="xs"
                     w="18px"
@@ -393,6 +438,7 @@ export default function Home() {
                   icon={<FiShoppingCart />}
                   variant="ghost"
                   onClick={onCartOpen}
+                  color="#6E741E"
                 />
                 {cartItemCount > 0 && (
                   <Badge
@@ -400,7 +446,7 @@ export default function Home() {
                     top="-6px"
                     right="-6px"
                     borderRadius="full"
-                    bg="pink.400"
+                    bg="#6E741E"
                     color="white"
                     fontSize="xs"
                     w="18px"
@@ -418,6 +464,7 @@ export default function Home() {
                 icon={<FiUser />}
                 variant="ghost"
                 display={{ base: "none", sm: "flex" }}
+                color="#6E741E"
               />
             </HStack>
           </Flex>
@@ -431,20 +478,24 @@ export default function Home() {
                 <Button
                   key={category.id}
                   variant="ghost"
-                  colorScheme="white"
-                  color="whiteAlpha.900"
+                  colorScheme="whiteAlpha"
+                  color="white"
                   mx={1}
                   fontWeight={selectedCategory === category.id.toString() ? "bold" : "normal"}
                   onClick={() => setSelectedCategory(category.id.toString())}
+                  _hover={{ bg: "rgba(255,255,255,0.2)" }}
                 >
                   {category.name}
                 </Button>
               ))}
               <Button
                 variant="ghost"
+                colorScheme="whiteAlpha"
+                color="white"
                 mx={1}
                 fontWeight={selectedCategory === "all" ? "bold" : "normal"}
                 onClick={() => setSelectedCategory("all")}
+                _hover={{ bg: "rgba(255,255,255,0.2)" }}
               >
                 All Products
               </Button>
@@ -458,7 +509,7 @@ export default function Home() {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader color="pink.500">GlowEssence</DrawerHeader>
+          <DrawerHeader color="#6E741E">Bright & Lustre</DrawerHeader>
           <DrawerBody>
             <VStack align="stretch" spacing={3}>
               <InputGroup>
@@ -466,9 +517,11 @@ export default function Home() {
                   placeholder="Search..." 
                   value={searchQuery}
                   onChange={handleSearch}
+                  borderColor="#6E741E"
+                  _focus={{ borderColor: "#6E741E", boxShadow: "0 0 0 1px #6E741E" }}
                 />
                 <InputRightElement>
-                  <FiChevronRight color="gray.400" />
+                  <FiChevronRight color="#6E741E" />
                 </InputRightElement>
               </InputGroup>
               
@@ -484,6 +537,8 @@ export default function Home() {
                     setSelectedCategory(category.id.toString());
                     onMobileMenuClose();
                   }}
+                  color="#6E741E"
+                  _hover={{ bg: "rgba(110,116,30,0.1)" }}
                 >
                   {category.name}
                 </Button>
@@ -496,20 +551,35 @@ export default function Home() {
                   setSelectedCategory("all");
                   onMobileMenuClose();
                 }}
+                color="#6E741E"
+                _hover={{ bg: "rgba(110,116,30,0.1)" }}
               >
                 All Products
               </Button>
               
               <Divider />
               
-              <Button leftIcon={<FiHeart />} variant="ghost" justifyContent="flex-start" onClick={() => {
-                onWishlistOpen();
-                onMobileMenuClose();
-              }}>
+              <Button 
+                leftIcon={<FiHeart />} 
+                variant="ghost" 
+                justifyContent="flex-start" 
+                onClick={() => {
+                  onWishlistOpen();
+                  onMobileMenuClose();
+                }}
+                color="#6E741E"
+                _hover={{ bg: "rgba(110,116,30,0.1)" }}
+              >
                 Wishlist ({wishlistItems.length})
               </Button>
               
-              <Button leftIcon={<FiUser />} variant="ghost" justifyContent="flex-start">
+              <Button 
+                leftIcon={<FiUser />} 
+                variant="ghost" 
+                justifyContent="flex-start"
+                color="#6E741E"
+                _hover={{ bg: "rgba(110,116,30,0.1)" }}
+              >
                 My Account
               </Button>
             </VStack>
@@ -517,55 +587,134 @@ export default function Home() {
         </DrawerContent>
       </Drawer>
 
-      {/* Hero Section */}
+      {/* Hero Slider Section */}
       <Box 
-        bgGradient="linear(to-r, pink.100, #6E741E)"  
+        position="relative"
+        overflow="hidden"
         mb={10}
+        height={{ base: "400px", md: "500px" }}
       >
-        <Container maxW="container.xl">
-          <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={8} alignItems="center">
-            <GridItem>
-              <Heading 
-                as="h1" 
-                size="2xl" 
-                lineHeight="shorter" 
-                mb={4}
-                bgGradient="linear(to-r, pink.400, purple.500)"
-                bgClip="text"
-              >
-                Discover Your Natural Beauty
-              </Heading>
-              <Text fontSize="xl" color="gray.600" mb={8}>
-                Premium skincare and beauty products crafted with natural ingredients for a radiant you.
-              </Text>
-              <HStack spacing={4}>
-                <Button colorScheme="pink" size="lg" rightIcon={<FiArrowRight />}>
-                  Shop Now
-                </Button>
-                <Button variant="outline" colorScheme="purple" size="lg">
-                  Learn More
-                </Button>
-              </HStack>
-            </GridItem>
-            <GridItem display={{ base: "none", md: "block" }}>
-            <Image
-              src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=320&q=80"
-              alt="Beauty Products"
-              borderRadius="md"
-              boxShadow="xl"
-              height="100%"
-              width="100%"
-              objectFit="cover"
-              objectPosition="left center"
+        {/* Slider Images */}
+        <Box 
+          position="absolute"
+          width="300%"
+          height="100%"
+          display="flex"
+          transition="transform 0.5s ease-in-out"
+          transform={`translateX(-${currentHeroSlide * 33.333}%)`}
+        >
+          {heroImages.map((image, index) => (
+            <Box 
+              key={index} 
+              width="33.333%" 
+              height="100%" 
+              position="relative"
+              bgImage={`url(${image.src})`}
+              bgSize="cover"
+              bgPosition="center"
+            >
+              <Box 
+                position="absolute"
+                top="0"
+                left="0"
+                width="100%"
+                height="100%"
+                bgGradient="linear(to-r, rgba(110,116,30,0.8), rgba(0,0,0,0.3))"
+              />
+              
+              <Container maxW="container.xl" h="100%">
+                <Flex 
+                  direction="column" 
+                  justify="center" 
+                  height="100%"
+                  maxW={{ base: "100%", md: "50%" }}
+                  color="white"
+                  position="relative"
+                  zIndex="1"
+                  pl={{ base: 4, md: 0 }}
+                >
+                  <Heading 
+                    as="h1" 
+                    size="2xl" 
+                    lineHeight="shorter" 
+                    mb={4}
+                  >
+                    {image.heading}
+                  </Heading>
+                  <Text fontSize="xl" mb={8}>
+                    {image.subtext}
+                  </Text>
+                  <HStack spacing={4}>
+                    <Button bg="#6E741E" color="white" size="lg" rightIcon={<FiArrowRight />} _hover={{ bg: "#585D18" }}>
+                      Shop Now
+                    </Button>
+                    <Button variant="outline" color="white" borderColor="white" size="lg" _hover={{ bg: "whiteAlpha.200" }}>
+                      Learn More
+                    </Button>
+                  </HStack>
+                </Flex>
+              </Container>
+            </Box>
+          ))}
+        </Box>
+        
+        {/* Navigation Arrows */}
+        <IconButton
+          icon={<FiChevronLeft size={24} />}
+          position="absolute"
+          left={4}
+          top="50%"
+          transform="translateY(-50%)"
+          zIndex={2}
+          aria-label="Previous slide"
+          onClick={prevSlide}
+          rounded="full"
+          bg="whiteAlpha.700"
+          color="#6E741E"
+          _hover={{ bg: "whiteAlpha.900" }}
+        />
+        
+        <IconButton
+          icon={<FiChevronRight size={24} />}
+          position="absolute"
+          right={4}
+          top="50%"
+          transform="translateY(-50%)"
+          zIndex={2}
+          aria-label="Next slide"
+          onClick={nextSlide}
+          rounded="full"
+          bg="whiteAlpha.700"
+          color="#6E741E"
+          _hover={{ bg: "whiteAlpha.900" }}
+        />
+        
+        {/* Slide Indicators */}
+        <HStack 
+          spacing={2} 
+          position="absolute" 
+          bottom={4} 
+          left="50%" 
+          transform="translateX(-50%)"
+          zIndex={2}
+        >
+          {heroImages.map((_, index) => (
+            <Box 
+              key={index}
+              w={3}
+              h={3}
+              borderRadius="full"
+              bg={currentHeroSlide === index ? "#6E741E" : "whiteAlpha.700"}
+              cursor="pointer"
+              onClick={() => setCurrentHeroSlide(index)}
             />
-            </GridItem>
-          </Grid>
-        </Container>
+          ))}
+        </HStack>
       </Box>
 
       {/* Featured Categories */}
       <Container maxW="container.xl" mb={16}>
-        <Heading size="lg" mb={6}>Shop by Category</Heading>
+        <Heading size="lg" mb={6} color="#6E741E">Shop by Category</Heading>
         <SimpleGrid columns={{ base: 2, md: 3, lg: 4 }} spacing={6}>
           {getFeaturedCategories().map((category) => (
             <Box 
@@ -578,10 +727,12 @@ export default function Home() {
               _hover={{ transform: "translateY(-5px)" }}
               cursor="pointer"
               onClick={() => setSelectedCategory(category.id.toString())}
+              borderColor="#6E741E"
+              borderWidth="1px"
             >
               <Image src={category.image} alt={category.name} h="200px" w="100%" objectFit="cover" />
               <Center py={4}>
-                <Text fontWeight="bold" fontSize="lg">{category.name}</Text>
+                <Text fontWeight="bold" fontSize="lg" color="#6E741E">{category.name}</Text>
               </Center>
             </Box>
           ))}
@@ -591,19 +742,19 @@ export default function Home() {
       {/* Products Section */}
       <Container maxW="container.xl" mb={16}>
         <Flex justify="space-between" align="center" mb={6}>
-          <Heading size="lg">
+          <Heading size="lg" color="#6E741E">
             {selectedCategory === "all" 
               ? "All Products" 
               : productCategories.find(cat => cat.id.toString() === selectedCategory)?.name || "Products"}
           </Heading>
           <HStack>
-            <Button size="sm" variant="ghost" color="pink.500">
+            <Button size="sm" variant="ghost" color="#6E741E">
               Latest
             </Button>
-            <Button size="sm" variant="ghost">
+            <Button size="sm" variant="ghost" color="#6E741E">
               Best Sellers
             </Button>
-            <Button size="sm" variant="ghost">
+            <Button size="sm" variant="ghost" color="#6E741E">
               Price
             </Button>
           </HStack>
@@ -621,14 +772,16 @@ export default function Home() {
                 transition="all 0.3s"
                 _hover={{ boxShadow: "md" }}
                 position="relative"
+                borderColor="gray.200"
+                borderWidth="1px"
               >
                 {product.isNew && (
                   <Badge 
                     position="absolute" 
                     top={3} 
                     left={3} 
-                    colorScheme="pink" 
-                    variant="solid" 
+                    bg="#6E741E" 
+                    color="white" 
                     borderRadius="full"
                     px={2}
                   >
@@ -640,8 +793,8 @@ export default function Home() {
                     position="absolute" 
                     top={3} 
                     right={3} 
-                    colorScheme="purple" 
-                    variant="solid" 
+                    bg="#6E741E" 
+                    color="white" 
                     borderRadius="full"
                     px={2}
                   >
@@ -658,13 +811,13 @@ export default function Home() {
                   />
                   <IconButton 
                     aria-label="Add to wishlist"
-                    icon={wishlistItems.some(item => item.id === product.id) ? <FiHeart fill="red" /> : <FiHeart />}
+                    icon={wishlistItems.some(item => item.id === product.id) ? <FiHeart fill="#6E741E" /> : <FiHeart />}
                     position="absolute"
                     bottom={3}
                     right={3}
                     colorScheme="white"
                     bg="white"
-                    color="gray.600"
+                    color="#6E741E"
                     size="sm"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -685,7 +838,7 @@ export default function Home() {
                   </Text>
                   <HStack spacing={1} mb={2}>
                     <Flex align="center">
-                      <FiStar fill="gold" stroke="gold" />
+                      <FiStar fill="#6E741E" stroke="#6E741E" />
                       <Text ml={1} fontSize="sm">{product.rating}</Text>
                     </Flex>
                     <Text fontSize="sm" color="gray.500">({product.reviewCount} reviews)</Text>
@@ -694,7 +847,7 @@ export default function Home() {
                     <Box>
                       {product.discountPrice ? (
                         <Flex align="center">
-                          <Text fontWeight="bold" fontSize="md" color="pink.600">
+                          <Text fontWeight="bold" fontSize="md" color="#6E741E">
                             ${product.discountPrice.toFixed(2)}
                           </Text>
                           <Text ml={2} fontSize="sm" textDecoration="line-through" color="gray.500">
@@ -702,16 +855,18 @@ export default function Home() {
                           </Text>
                         </Flex>
                       ) : (
-                        <Text fontWeight="bold" fontSize="md" color="gray.800">
+                        <Text fontWeight="bold" fontSize="md" color="#6E741E">
                           ${product.price.toFixed(2)}
                         </Text>
                       )}
                     </Box>
                     <Button 
                       size="sm" 
-                      colorScheme="pink" 
+                      bg="#6E741E" 
+                      color="white"
                       leftIcon={<FiShoppingBag size={14} />}
                       onClick={() => addToCart(product)}
+                      _hover={{ bg: "#585D18" }}
                     >
                       Add
                     </Button>
@@ -724,7 +879,7 @@ export default function Home() {
           <Center p={10} bg="gray.50" borderRadius="lg">
             <VStack>
               <Text>No products found matching your criteria.</Text>
-              <Button colorScheme="pink" variant="outline" onClick={() => setSelectedCategory("all")}>
+              <Button bg="#6E741E" color="white" onClick={() => setSelectedCategory("all")} _hover={{ bg: "#585D18" }}>
                 View All Products
               </Button>
             </VStack>
@@ -737,88 +892,100 @@ export default function Home() {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader borderBottomWidth="1px">
+          <DrawerHeader borderBottomWidth="1px" color="#6E741E">
             Your Shopping Cart ({cartItemCount} items)
           </DrawerHeader>
           <DrawerBody>
             {cartItems.length === 0 ? (
               <Center h="200px" flexDirection="column">
-                <FiShoppingCart size={50} color="#CBD5E0" />
+                <FiShoppingCart size={50} color="#6E741E" />
                 <Text mt={4} color="gray.500">Your cart is empty</Text>
-                <Button mt={4} colorScheme="pink" variant="outline" onClick={onCartClose}>
+                <Button mt={4} bg="#6E741E" color="white" onClick={onCartClose} _hover={{ bg: "#585D18" }}>
                   Continue Shopping
                 </Button>
               </Center>
             ) : (
-              <VStack spacing={4} align="stretch" divider={<Divider />}>
+              <VStack spacing={4} align="stretch">
                 {cartItems.map((item) => (
-                  <Flex key={item.id} align="center">
-                    <Image 
-                      src={item.image} 
-                      alt={item.name} 
-                      boxSize="80px" 
-                      objectFit="cover" 
-                      borderRadius="md" 
-                      mr={4}
-                    />
-                    <Box flex="1">
-                      <Text fontWeight="medium">{item.name}</Text>
-                      <Text color="gray.600" fontSize="sm">
-                        {productCategories.find(cat => cat.id === item.categoryId)?.name}
-                      </Text>
-                      <Text fontWeight="bold" color="pink.600" mt={1}>
-                        ${(item.discountPrice || item.price).toFixed(2)}
-                      </Text>
-                    </Box>
-                    <Flex direction="column" align="center">
-                      <HStack>
-                        <IconButton 
-                          icon={<FiMinus size={12} />} 
-                          size="xs" 
-                          variant="outline"
-                          onClick={() => updateCartQuantity(item.id, item.quantity - 1)}
+                  <Box key={item.id} borderBottomWidth="1px" pb={4}>
+                    <Flex justify="space-between" align="center">
+                      <Flex>
+                        <Image 
+                          src={item.image} 
+                          alt={item.name} 
+                          w="80px" 
+                          h="80px" 
+                          objectFit="cover" 
+                          borderRadius="md"
+                          mr={3}
                         />
-                        <Text fontWeight="medium" w="30px" textAlign="center">{item.quantity}</Text>
-                        <IconButton 
-                          icon={<FiPlus size={12} />} 
-                          size="xs" 
-                          variant="outline"
-                          onClick={() => updateCartQuantity(item.id, item.quantity + 1)}
-                        />
-                      </HStack>
+                        <Box>
+                          <Text fontWeight="medium">{item.name}</Text>
+                          <Text color="gray.500" fontSize="sm">
+                            {productCategories.find(cat => cat.id === item.categoryId)?.name}
+                          </Text>
+                          <Text fontWeight="bold" color="#6E741E">
+                            ${(item.discountPrice || item.price).toFixed(2)}
+                          </Text>
+                        </Box>
+                      </Flex>
                       <IconButton
-                        icon={<FiTrash2 size={14} />}
-                        aria-label="Remove item"
-                        size="sm"
+                        icon={<FiTrash2 />}
                         variant="ghost"
                         colorScheme="red"
-                        mt={2}
+                        aria-label="Remove item"
                         onClick={() => removeFromCart(item.id)}
                       />
                     </Flex>
-                  </Flex>
+                    <Flex justify="space-between" align="center" mt={2}>
+                      <HStack spacing={2}>
+                        <IconButton
+                          icon={<FiMinus />}
+                          size="sm"
+                          aria-label="Decrease quantity"
+                          onClick={() => updateCartQuantity(item.id, item.quantity - 1)}
+                        />
+                        <Text>{item.quantity}</Text>
+                        <IconButton
+                          icon={<FiPlus />}
+                          size="sm"
+                          aria-label="Increase quantity"
+                          onClick={() => updateCartQuantity(item.id, item.quantity + 1)}
+                        />
+                      </HStack>
+                      <Text fontWeight="bold">
+                        ${((item.discountPrice || item.price) * item.quantity).toFixed(2)}
+                      </Text>
+                    </Flex>
+                  </Box>
                 ))}
+                <Divider />
+                <Flex justify="space-between" fontWeight="bold" fontSize="lg">
+                  <Text>Total:</Text>
+                  <Text>${calculateCartTotal()}</Text>
+                </Flex>
+                <Button 
+                  bg="#6E741E" 
+                  color="white" 
+                  size="lg" 
+                  mt={4}
+                  rightIcon={<FiArrowRight />}
+                  _hover={{ bg: "#585D18" }}
+                >
+                  Proceed to Checkout
+                </Button>
+                <Button 
+                  variant="outline" 
+                  color="#6E741E" 
+                  borderColor="#6E741E" 
+                  size="lg" 
+                  onClick={onCartClose}
+                >
+                  Continue Shopping
+                </Button>
               </VStack>
             )}
           </DrawerBody>
-
-          {cartItems.length > 0 && (
-            <Box borderTopWidth="1px" p={4}>
-              <Flex justify="space-between" mb={2}>
-                <Text fontWeight="medium">Subtotal</Text>
-                <Text fontWeight="bold">${calculateCartTotal()}</Text>
-              </Flex>
-              <Text fontSize="sm" color="gray.500" mb={4}>
-                Shipping and taxes calculated at checkout
-              </Text>
-              <Button colorScheme="pink" w="100%" size="lg">
-                Checkout
-              </Button>
-              <Button variant="ghost" w="100%" mt={2} onClick={onCartClose}>
-                Continue Shopping
-              </Button>
-            </Box>
-          )}
         </DrawerContent>
       </Drawer>
 
@@ -827,155 +994,121 @@ export default function Home() {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader borderBottomWidth="1px">
+          <DrawerHeader borderBottomWidth="1px" color="#6E741E">
             Your Wishlist ({wishlistItems.length} items)
           </DrawerHeader>
           <DrawerBody>
-            {wishlistItems.length === 0 ? (
+          {wishlistItems.length === 0 ? (
               <Center h="200px" flexDirection="column">
-                <FiHeart size={50} color="#CBD5E0" />
+                <FiHeart size={50} color="#6E741E" />
                 <Text mt={4} color="gray.500">Your wishlist is empty</Text>
-                <Button mt={4} colorScheme="pink" variant="outline" onClick={onWishlistClose}>
-                  Continue Shopping
+                <Button mt={4} bg="#6E741E" color="white" onClick={onWishlistClose} _hover={{ bg: "#585D18" }}>
+                  Browse Products
                 </Button>
               </Center>
             ) : (
-              <VStack spacing={4} align="stretch" divider={<Divider />}>
+              <VStack spacing={4} align="stretch">
                 {wishlistItems.map((item) => (
-                  <Flex key={item.id} align="center">
-                    <Image 
-                      src={item.image} 
-                      alt={item.name} 
-                      boxSize="80px" 
-                      objectFit="cover" 
-                      borderRadius="md" 
-                      mr={4}
-                    />
-                    <Box flex="1">
-                      <Text fontWeight="medium">{item.name}</Text>
-                      <Text color="gray.600" fontSize="sm">
-                        {productCategories.find(cat => cat.id === item.categoryId)?.name}
-                      </Text>
-                      <Text fontWeight="bold" color="pink.600" mt={1}>
-                        ${(item.discountPrice || item.price).toFixed(2)}
-                      </Text>
-                    </Box>
-                    <Flex>
-                      <Button
-                        size="sm"
-                        colorScheme="pink"
-                        mr={2}
-                        onClick={() => moveFromWishlistToCart(item)}
-                      >
-                        Add to Cart
-                      </Button>
+                  <Box key={item.id} borderBottomWidth="1px" pb={4}>
+                    <Flex justify="space-between" align="center">
+                      <Flex>
+                        <Image 
+                          src={item.image} 
+                          alt={item.name} 
+                          w="80px" 
+                          h="80px" 
+                          objectFit="cover" 
+                          borderRadius="md"
+                          mr={3}
+                        />
+                        <Box>
+                          <Text fontWeight="medium">{item.name}</Text>
+                          <Text color="gray.500" fontSize="sm">
+                            {productCategories.find(cat => cat.id === item.categoryId)?.name}
+                          </Text>
+                          <Text fontWeight="bold" color="#6E741E">
+                            ${(item.discountPrice || item.price).toFixed(2)}
+                          </Text>
+                        </Box>
+                      </Flex>
                       <IconButton
                         icon={<FiTrash2 />}
-                        aria-label="Remove from wishlist"
-                        size="sm"
                         variant="ghost"
+                        colorScheme="red"
+                        aria-label="Remove item"
                         onClick={() => removeFromWishlist(item.id)}
                       />
                     </Flex>
-                  </Flex>
+                    <Flex justify="flex-end" mt={2}>
+                      <Button 
+                        size="sm" 
+                        bg="#6E741E" 
+                        color="white"
+                        leftIcon={<FiShoppingBag size={14} />}
+                        onClick={() => moveFromWishlistToCart(item)}
+                        _hover={{ bg: "#585D18" }}
+                      >
+                        Add to Cart
+                      </Button>
+                    </Flex>
+                  </Box>
                 ))}
+                <Divider />
+                <Button 
+                  bg="#6E741E" 
+                  color="white" 
+                  size="lg" 
+                  mt={4}
+                  rightIcon={<FiArrowRight />}
+                  onClick={() => {
+                    onWishlistClose();
+                    onCartOpen();
+                  }}
+                  _hover={{ bg: "#585D18" }}
+                >
+                  View Cart
+                </Button>
+                <Button 
+                  variant="outline" 
+                  color="#6E741E" 
+                  borderColor="#6E741E" 
+                  size="lg" 
+                  onClick={onWishlistClose}
+                >
+                  Continue Shopping
+                </Button>
               </VStack>
             )}
           </DrawerBody>
         </DrawerContent>
       </Drawer>
 
-      {/* Features Section */}
-      <Box  bgGradient="linear(to-r, #6E741E, gray.100)"   py={16}>
-        <Container maxW="container.xl">
-          <SimpleGrid columns={{ base: 1, md: 4 }} spacing={10}>
-            <Center flexDirection="column" textAlign="center">
-              <Box fontSize="3xl" color="pink.500" mb={3}>🌱</Box>
-              <Text fontWeight="bold" mb={2}>Natural Ingredients</Text>
-              <Text color="gray.600" fontSize="sm">
-                Premium quality products made with certified organic ingredients
-              </Text>
-            </Center>
-            <Center flexDirection="column" textAlign="center">
-              <Box fontSize="3xl" color="pink.500" mb={3}>🔬</Box>
-              <Text fontWeight="bold" mb={2}>Science-Backed Formulas</Text>
-              <Text color="gray.600" fontSize="sm">
-                Clinically tested formulations for proven results
-              </Text>
-            </Center>
-            <Center flexDirection="column" textAlign="center">
-              <Box fontSize="3xl" color="pink.500" mb={3}>🐰</Box>
-              <Text fontWeight="bold" mb={2}>Cruelty-Free</Text>
-              <Text color="gray.600" fontSize="sm">
-                Never tested on animals, always vegan-friendly
-              </Text>
-            </Center>
-            <Center flexDirection="column" textAlign="center">
-              <Box fontSize="3xl" color="pink.500" mb={3}>🚚</Box>
-              <Text fontWeight="bold" mb={2}>Free Shipping</Text>
-              <Text color="gray.600" fontSize="sm">
-                On all orders over $50 within the US
-              </Text>
-            </Center>
-          </SimpleGrid>
-        </Container>
-      </Box>
-
-      {/* Newsletter Section */}
-      <Box py={16} bg="white">
-        <Container maxW="container.md" textAlign="center">
-          <Heading size="lg" mb={4}>Join Our Beauty Community</Heading>
-          <Text color="gray.600" mb={8}>
-            Subscribe to our newsletter for exclusive offers, beauty tips, and new product announcements
-          </Text>
-          <Flex justify="center">
-            <InputGroup maxW="md">
-              <Input 
-                placeholder="Your email address" 
-                borderRadius="full" 
-                bg="gray.50"
-                borderRightRadius={0}
-              />
-              <InputRightElement width="auto">
-                <Button 
-                  colorScheme="pink" 
-                  borderRadius="full" 
-                  borderLeftRadius={0}
-                  px={6}
-                >
-                  Subscribe
-                </Button>
-              </InputRightElement>
-            </InputGroup>
-          </Flex>
-        </Container>
-      </Box>
-
       {/* Footer */}
-      <Box bg="gray.800" color="white" py={12}>
+      <Box bg="#6E741E" color="white" py={10}>
         <Container maxW="container.xl">
           <Grid templateColumns={{ base: "1fr", md: "repeat(4, 1fr)" }} gap={8}>
             <GridItem>
-              <Heading size="md" mb={4} color="pink.400">GlowEssence</Heading>
-              <Text color="gray.400" mb={4}>
-                Premium beauty products for your natural glow. Cruelty-free, vegan, and made with love.
-              </Text>
+              <Heading size="md" mb={4}>Bright & Lustre</Heading>
+              <Text mb={4}>Premium beauty products for your natural glow.</Text>
               <HStack spacing={4}>
-                <IconButton aria-label="Facebook" icon={<Box>f</Box>} variant="ghost" color="gray.400" />
-                <IconButton aria-label="Instagram" icon={<Box>ig</Box>} variant="ghost" color="gray.400" />
-                <IconButton aria-label="Twitter" icon={<Box>t</Box>} variant="ghost" color="gray.400" />
+                <IconButton aria-label="Facebook" icon={<FiUser />} variant="ghost" color="white" />
+                <IconButton aria-label="Instagram" icon={<FiUser />} variant="ghost" color="white" />
+                <IconButton aria-label="Twitter" icon={<FiUser />} variant="ghost" color="white" />
               </HStack>
             </GridItem>
             <GridItem>
-              <Heading size="sm" mb={4}>Shop</Heading>
+              <Heading size="md" mb={4}>Shop</Heading>
               <VStack align="start" spacing={2}>
-                {productCategories.slice(0, 4).map(category => (
+                {productCategories.slice(0, 4).map((category) => (
                   <Button 
                     key={category.id} 
                     variant="link" 
-                    color="gray.400" 
+                    color="white" 
                     fontWeight="normal"
-                    onClick={() => setSelectedCategory(category.id.toString())}
+                    onClick={() => {
+                      setSelectedCategory(category.id.toString());
+                      window.scrollTo(0, 0);
+                    }}
                   >
                     {category.name}
                   </Button>
@@ -983,35 +1116,40 @@ export default function Home() {
               </VStack>
             </GridItem>
             <GridItem>
-              <Heading size="sm" mb={4}>Help</Heading>
+              <Heading size="md" mb={4}>Customer Service</Heading>
               <VStack align="start" spacing={2}>
-                <Button variant="link" color="gray.400" fontWeight="normal">Contact Us</Button>
-                <Button variant="link" color="gray.400" fontWeight="normal">FAQs</Button>
-                <Button variant="link" color="gray.400" fontWeight="normal">Shipping & Returns</Button>
-                <Button variant="link" color="gray.400" fontWeight="normal">Privacy Policy</Button>
+                <Button variant="link" color="white" fontWeight="normal">Contact Us</Button>
+                <Button variant="link" color="white" fontWeight="normal">FAQs</Button>
+                <Button variant="link" color="white" fontWeight="normal">Shipping & Returns</Button>
+                <Button variant="link" color="white" fontWeight="normal">Privacy Policy</Button>
               </VStack>
             </GridItem>
             <GridItem>
-              <Heading size="sm" mb={4}>Contact</Heading>
-              <VStack align="start" spacing={2}>
-                <Text color="gray.400">123 Beauty Street</Text>
-                <Text color="gray.400">New York, NY 10001</Text>
-                <Text color="gray.400">hello@glowessence.com</Text>
-                <Text color="gray.400">(555) 123-4567</Text>
-              </VStack>
+              <Heading size="md" mb={4}>Newsletter</Heading>
+              <Text mb={4}>Subscribe to get updates on new arrivals and special offers.</Text>
+              <InputGroup>
+                <Input 
+                  placeholder="Your email address" 
+                  bg="white" 
+                  color="gray.800"
+                  _placeholder={{ color: "gray.500" }}
+                />
+                <InputRightElement>
+                  <IconButton 
+                    aria-label="Subscribe" 
+                    icon={<FiArrowRight />} 
+                    bg="#6E741E" 
+                    color="white"
+                    _hover={{ bg: "#585D18" }}
+                  />
+                </InputRightElement>
+              </InputGroup>
             </GridItem>
           </Grid>
-          <Divider my={8} borderColor="gray.700" />
-          <Flex justify="space-between" align="center">
-            <Text color="gray.400" fontSize="sm">
-              © 2023 GlowEssence. All rights reserved.
-            </Text>
-            <HStack spacing={4}>
-              <Image src="/api/placeholder/400/320" boxSize={8} />
-              <Image src="/api/placeholder/400/320" boxSize={8} />
-              <Image src="/api/placeholder/400/320" boxSize={8} />
-            </HStack>
-          </Flex>
+          <Divider my={6} borderColor="whiteAlpha.400" />
+          <Text textAlign="center" fontSize="sm">
+            © {new Date().getFullYear()} Bright & Lustre. All rights reserved.
+          </Text>
         </Container>
       </Box>
     </Box>
